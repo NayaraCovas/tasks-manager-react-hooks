@@ -1,4 +1,4 @@
-import{useState} from 'react'
+import{useState} from 'react'//this way we can also use this state within other components
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 
@@ -6,7 +6,7 @@ import Tasks from "./components/Tasks";
 
 
 const App =() => {
-  const [tasks, setTasks] = useState([//tasks is what we name this piece of state|setTasks is the function to update this state|useState-inside it is the default that we want to use for our tasks
+  const [tasks, setTasks] = useState([//tasks is what we name this piece of state|setTasks is the function to update this state|useState-inside it is the default that we want to use for our tasks,//In order to use state inside a function we use a hook called useState
     {
       id: 1,
       text: "Doctor Appointment",
@@ -26,17 +26,42 @@ const App =() => {
       reminder: true,
     },
   ])
-  
+
+
+
+  //Delete task
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) =>task.id !== id))
+
+  }
+
+  //Toggle Reminder
+  const toggleReminder = (id) => {
+    setTasks(
+      tasks.map((task) =>
+      task.id === id ? {...task, reminder:
+      !task.reminder} : task))
+  }
+
+
+
   return (
     <div className="container">
       <Header />
-      <Tasks tasks={tasks}/>
+      {tasks.length > 0 ? (
+      <Tasks tasks={tasks} onDelete=
+      {deleteTask} onToggle={toggleReminder}/>
+      ) : (
+        'No Tasks to show'
+        )}
+      
 
            
     </div>
   )
 }
-
+//onDelete will be a prop of tasks
 export default App;
 
 /* Doing the same with class:
