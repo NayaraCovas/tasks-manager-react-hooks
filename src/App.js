@@ -1,4 +1,4 @@
-import{useState} from 'react'//this way we can also use this state within other components
+import{useState, useEffect} from 'react'//this way we can also use this state within other components
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from './components/AddTask';
@@ -8,27 +8,25 @@ import AddTask from './components/AddTask';
 
 const App =() => {
   const [showAddTask, setShowAddTask] = useState (false)
-  const [tasks, setTasks] = useState([//tasks is what we name this piece of state|setTasks is the function to update this state|useState-inside it is the default that we want to use for our tasks,//In order to use state inside a function we use a hook called useState
-    {
-      id: 1,
-      text: "Doctor Appointment",
-      day: "Feb 5th at 2:30",
-      reminder: true,
-    },
-    {
-      id: 2,
-      text: "Mother Appointment",
-      day: "Feb 6th at 2:30",
-      reminder: true,
-    },
-    {
-      id: 3,
-      text: "Dad Appointment",
-      day: "Feb 7th at 2:30",
-      reminder: true,
-    },
-  ])
+  const [tasks, setTasks] = useState([])//tasks is what we name this piece of state|setTasks is the function to update this state|useState-inside it is the default that we want to use for our tasks,//In order to use state inside a function we use a hook called useState
+   
+  useEffect (() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks()
+      setTasks(tasksFromServer)
+    }
 
+   getTasks()
+  }, [])
+  
+
+  //Fetch Tasks
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks')
+    const data = await res.json ()
+    console.log(data)
+    return(data)
+  }
   //Add Task
   const addTask = (task) => {
     const id = Math.floor(Math.random() * 10000) + 1    
