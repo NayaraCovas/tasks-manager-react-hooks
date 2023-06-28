@@ -7,6 +7,7 @@ import AddTask from './components/AddTask';
 
 
 const App =() => {
+  const [showAddTask, setShowAddTask] = useState (false)
   const [tasks, setTasks] = useState([//tasks is what we name this piece of state|setTasks is the function to update this state|useState-inside it is the default that we want to use for our tasks,//In order to use state inside a function we use a hook called useState
     {
       id: 1,
@@ -30,8 +31,12 @@ const App =() => {
 
   //Add Task
   const addTask = (task) => {
-    console.log(task);
+    const id = Math.floor(Math.random() * 10000) + 1    
+    const newTask = { id, ...task }//use id and copies what is passed in (task) and add to the object newTask
+    setTasks([...tasks, newTask])//copy tasks that are already there but also adds the new task to it
   }
+  
+  
 
   //Delete task
 
@@ -52,8 +57,10 @@ const App =() => {
 
   return (
     <div className="container">
-      <Header />
-      <AddTask onAdd={addTask}/>
+      <Header onAdd={() => setShowAddTask
+        (!showAddTask)}
+         showAdd= {showAddTask}/>
+      {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length > 0 ? (
       <Tasks tasks={tasks} onDelete=
       {deleteTask} onToggle={toggleReminder}/>
