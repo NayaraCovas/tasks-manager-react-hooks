@@ -1,6 +1,7 @@
 import{useState} from 'react'//this way we can also use this state within other components
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import AddTask from './components/AddTask';
 
 
 
@@ -27,7 +28,10 @@ const App =() => {
     },
   ])
 
-
+  //Add Task
+  const addTask = (task) => {
+    console.log(task);
+  }
 
   //Delete task
 
@@ -49,6 +53,7 @@ const App =() => {
   return (
     <div className="container">
       <Header />
+      <AddTask onAdd={addTask}/>
       {tasks.length > 0 ? (
       <Tasks tasks={tasks} onDelete=
       {deleteTask} onToggle={toggleReminder}/>
